@@ -1,0 +1,42 @@
+.bottom-third-container {
+  position: absolute;
+  bottom: 20px; /* Adjust the value as needed to control the distance from the bottom */
+  width: 70%;
+  height: 30%;
+  margin: 0 auto;
+  /* background-color: red; */
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.bottom-left-container,
+.bottom-right-container {
+    width: 40%;
+    height: 100%;
+    background-color: #272f4e;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.bottom-left-container text,
+.bottom-right-container text {
+    fill: white !important;
+}
+
+.bottom-right-container {
+  width: 40%;
+  height: 100%;
+  background-color: #272f4e;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Align content horizontally */
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column; /* Arrange items vertically */
+  align-items: center; /* Center items horizontally */
+}
+

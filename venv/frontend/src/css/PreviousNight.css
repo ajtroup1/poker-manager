@@ -1,0 +1,11 @@
+.top-left-container text {
+    fill: white !important;
+}
+
+.last-night-info {
+    text-align: center;
+    font-size: 20px;
+    align-items: center;
+    margin-right: 15%;
+    margin-left: -10%;
+}

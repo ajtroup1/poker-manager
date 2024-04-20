@@ -1,0 +1,82 @@
+.next-night-container {
+    background-color: #272f4e;
+    width: 75%;
+    height: 20%;
+    margin: 17.5% auto;
+    display: flex;
+    border-radius: 20px;
+}
+
+
+
+.animated-gradient {
+  background-image: linear-gradient(45deg, #ff6a00, #ee0979, #9c00ff, #4a00e0, #007bff, #00bfff, #00ff80, #ffcc00, #ff5722);
+  background-size: 400% 400%;
+  color: transparent;
+  -webkit-background-clip: text;
+  animation: gradientAnimation 5s infinite alternate;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+.animated-btn-gradient {
+  background-image: linear-gradient(45deg, #ff6a00, #ee0979, #9c00ff, #4a00e0, #007bff, #00bfff, #00ff80, #ffcc00, #ff5722);
+  background-size: 400% 400%;
+  color: white; /* Change text color to white or any contrasting color */
+  border: none; /* Remove button border */
+  padding: 10px 20px; /* Adjust padding as needed */
+  cursor: pointer; /* Add cursor pointer */
+  border-radius: 5px; /* Add border radius */
+  height: 40px;
+  font-size: 12px;
+  transition: background-position 0.5s; /* Add transition for smoother animation */
+  animation: gradientAnimation 5s infinite alternate;
+}
+
+
+
+
+.date-container {
+  width: 30%;
+  height: 100%;
+  /* background-color: green; */
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Add margin between the stacked items */
+.date-container > div {
+  margin-bottom: 10px;
+}
+
+
+.btn-container {
+    width: 10%;
+    height: 100%;
+    /* background-color: orange; */
+    display: flex;
+    align-items: center;
+}
+.players-container {
+    width: 60%;
+    height: 100%;
+    /* background-color: yellow; */
+    text-align: center;
+    margin-top: 10px;
+}
+
+.players-icon-container {
+    margin-top: 20px;
+    display: flex;
+}
+
