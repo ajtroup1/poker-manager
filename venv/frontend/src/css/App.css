@@ -1,4 +1,248 @@
-.app {
-  font-family: "Georgia", Times, serif;
+.main {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
   color: white;
+  font-family: "Canva Sans", sans-serif;
+  font-weight: bold;
+  font-size: 24px; /* Adjust the font size as needed */
+  letter-spacing: 1px; /* Add some letter spacing */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a subtle text shadow */
 }
+
+.left-nav {
+    width: 15%;
+    background-color: #272f4e;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+}
+
+.logo-container {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+}
+
+.poker-logo {
+    width: 100%;
+    height: 100%;
+}
+
+.profile-img-container {
+    width: 50%;
+    height: 50%;
+    margin: 20px auto;
+}
+
+#profile-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5); 
+}
+
+.profile-display-container {
+    text-align: center;
+    width: 100%;
+    height: 30%;
+}
+
+.other-container {
+    width: 100%;
+    height: 40%;
+    /* background-color: green; */
+}
+
+.right-container {
+  height: 100%;
+  width: 85%;
+  background-color: #1c132e;
+}
+
+.navbar {
+    width: 100%;
+    height: 10%;
+    /* background-color: red; */
+    display: flex;
+}
+.nav-item {
+    width: 5%;
+    height: 50%;
+
+}
+#nav-picture {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.right-main {
+    width: 100%;
+    height: 100%;
+    background-color: #1c132e;
+    display: flex;
+    justify-content: center;
+}
+
+.top-third-container {
+  position: absolute;
+  top: 12%; /* Adjust the value as needed to control the distance from the bottom */
+  width: 70%;
+  height: 25%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.top-left-container,
+.top-right-container {
+    width: 40%;
+    height: 100%;
+    background-color: #272f4e;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.top-left-container text {
+    fill: white !important;
+}
+
+.last-night-info {
+    text-align: center;
+    font-size: 20px;
+    align-items: center;
+    margin-right: 15%;
+    margin-left: -10%;
+}
+
+.top-right-container img {
+ margin: 10px;
+}
+
+.next-night-container {
+    background-color: #272f4e;
+    width: 75%;
+    height: 20%;
+    margin: 17.5% auto;
+    display: flex;
+    border-radius: 20px;
+}
+
+.animated-gradient {
+  background-image: linear-gradient(45deg, #ff6a00, #ee0979, #9c00ff, #4a00e0, #007bff, #00bfff, #00ff80, #ffcc00, #ff5722);
+  background-size: 400% 400%;
+  color: transparent;
+  -webkit-background-clip: text;
+  animation: gradientAnimation 5s infinite alternate;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+.animated-btn-gradient {
+  background-image: linear-gradient(45deg, #ff6a00, #ee0979, #9c00ff, #4a00e0, #007bff, #00bfff, #00ff80, #ffcc00, #ff5722);
+  background-size: 400% 400%;
+  color: white; /* Change text color to white or any contrasting color */
+  border: none; /* Remove button border */
+  padding: 10px 20px; /* Adjust padding as needed */
+  cursor: pointer; /* Add cursor pointer */
+  border-radius: 5px; /* Add border radius */
+  height: 40px;
+  font-size: 12px;
+  transition: background-position 0.5s; /* Add transition for smoother animation */
+  animation: gradientAnimation 5s infinite alternate;
+}
+
+
+
+
+.date-container {
+  width: 30%;
+  height: 100%;
+  /* background-color: green; */
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Add margin between the stacked items */
+.date-container > div {
+  margin-bottom: 10px;
+}
+
+
+.btn-container {
+    width: 10%;
+    height: 100%;
+    /* background-color: orange; */
+    display: flex;
+    align-items: center;
+}
+.players-container {
+    width: 60%;
+    height: 100%;
+    /* background-color: yellow; */
+    text-align: center;
+    margin-top: 10px;
+}
+
+.players-icon-container {
+    margin-top: 20px;
+    display: flex;
+}
+
+.bottom-third-container {
+  position: absolute;
+  bottom: 20px; /* Adjust the value as needed to control the distance from the bottom */
+  width: 70%;
+  height: 30%;
+  margin: 0 auto;
+  /* background-color: red; */
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.bottom-left-container,
+.bottom-right-container {
+    width: 40%;
+    height: 100%;
+    background-color: #272f4e;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.bottom-left-container text,
+.bottom-right-container text {
+    fill: white !important;
+}
+
+.bottom-right-container {
+  width: 40%;
+  height: 100%;
+  background-color: #272f4e;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Align content horizontally */
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column; /* Arrange items vertically */
+  align-items: center; /* Center items horizontally */
+}
+
