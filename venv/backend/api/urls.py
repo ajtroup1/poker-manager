@@ -13,6 +13,7 @@ urlpatterns = [
     path('night/<int:id>', GetNightByID.as_view()),
     path('add-night', AddNight.as_view()),
     path('edit-night/<int:id>', EditNight.as_view()),
+    path('delete-night/<int:id>', DeleteNight.as_view()),
     #user nights
     path('usernights', GetUserNights.as_view()),
     path('usernights-by-user/<int:id>', GetUserNightsByUserID.as_view()),

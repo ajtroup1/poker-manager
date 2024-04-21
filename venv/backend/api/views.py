@@ -98,6 +98,16 @@ class EditNight(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class DeleteNight(APIView):
+    def delete(self, request, id, format=None):
+        try:
+            night = Night.objects.get(pk=id)
+        except Night.DoesNotExist:
+            return Response({'Message': 'Night does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+        night.delete()
+        return Response({'Message': 'Night deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         
 #USER NIGHT
 class GetUserNights(APIView):
