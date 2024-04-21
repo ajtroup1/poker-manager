@@ -1,0 +1,42 @@
+.home-main {
+  height: 100vh;
+  width: 100vw;
+  background-color: #1c132e;
+  color: white;
+  font-family: "Canva Sans", sans-serif;
+  font-weight: bold;
+  font-size: 24px; /* Adjust the font size as needed */
+  letter-spacing: 1px; /* Add some letter spacing */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5)
+}
+
+.title {
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 5%;
+    color: white;
+}
+
+#poker-logo {
+    width: 300px;
+    height: auto;
+    bottom: 200px;
+}
+
+.login-choices {
+    width: 40%;
+    height: 30%;
+    background-color: #272f4e;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.login-choices > * {
+    margin: 20px; /* Adjust the spacing as needed */
+}

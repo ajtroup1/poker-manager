@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import "../css/UserHome.css";
 import HandIcon from "./HandIcon";
 import Navbar from "./Navbar";
@@ -6,23 +7,16 @@ import ProfileDisplay from "./ProfileDisplay";
 import NextNight from "./NextNight";
 import PreviousNight from "./PreviousNight";
 import BottomCharts from "./BottomCharts";
+import Cookies from "js-cookie";
+
+
 
 function UserHome() {
-  const [user, setUser] = useState({
-    id: 0,
-    username: "",
-    password: "",
-    firstname: "",
-    lastname: "",
-    email: "",
-    date_of_birth: "0000-00-00",
-    games_attended: 0,
-    total_won: 0,
-    total_spent: 0,
-    player_class: "Base",
-    phone_number: "000-000-0000",
-    favorite_hand: "Ace of spades Ace of hearts",
-  });
+  const location = useLocation();
+  const [userId, setUserId] = useState(Cookies.get('userId'))
+
+  const [user, setUser] = useState({});
+
   const [nextNight, setNextNight] = useState({
     date: "0000-00-00",
     totalPot: 0,
@@ -31,81 +25,104 @@ function UserHome() {
   });
 
   const [userPreviousNight, setUserPreviousNight] = useState({
-    date: "2024-04-08",
-    totalWon: 28,
-    totalSpent: 10,
+    user: 0,
+    date: "0000-00-00",
+    night: 0,
+    total_won: 0,
+    total_spent: 0,
   });
 
-  const [recentUserNights, setRecentUserNights] = useState([])
-
+  const [recentUserNights, setRecentUserNights] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch user data and next night data
-    fetchUserData();
-    fetchNextNightData();
-  }, []);
+    if (userId) {
+      fetchUserData(userId);
+      fetchNextNightData();
+    }
+  }, [userId]);
 
   useEffect(() => {
-    // Check if both user data and next night data are fetched
-    // If both are fetched, set isLoading to false
-    if (user && nextNight && nextNight.date !== "0000-00-00") {
+    if (nextNight && nextNight.date !== "0000-00-00") {
       fetchUserPreviousNightData();
-      setIsLoading(false);
     }
-  }, [user, nextNight]);
+  }, [nextNight]);
 
-  const fetchUserData = () => {
-    fetch("http://127.0.0.1:8000/api/user/1")
-      .then((response) => response.json())
+  const fetchUserData = (userId) => {
+    fetch(`http://127.0.0.1:8000/api/user/${userId}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        return response.json();
+      })
       .then((data) => {
+        // Assuming data contains the user object
         setUser(data);
         // console.log(data);
+        fetchUserPreviousNightData(data.id);
       })
-      .catch((error) => console.error("Error fetching user data:", error));
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
   };
 
   const fetchNextNightData = () => {
     fetch("http://127.0.0.1:8000/api/nights")
       .then((response) => response.json())
       .then((data) => {
-        const dates = data.map((night) => new Date(night.date));
         const currentDate = new Date();
-        const upcomingDates = dates.filter((date) => date > currentDate);
-        let nearestDate = null;
-        upcomingDates.forEach((date) => {
-          if (!nearestDate || date < nearestDate) {
-            nearestDate = date;
-          }
-        });
-
-        const nextNightx = data.find(
-          (night) => new Date(night.date).getTime() === nearestDate.getTime()
+        const upcomingNights = data.filter(
+          (night) => new Date(night.date) > currentDate
         );
-        setNextNight(nextNightx);
-        setIsLoading(false);
+
+        if (upcomingNights.length > 0) {
+          // Find the next night by sorting the upcoming nights by date
+          upcomingNights.sort((a, b) => new Date(a.date) - new Date(b.date));
+          const nextNightx = upcomingNights[0];
+          setNextNight(nextNightx);
+        } else {
+          // If there are no upcoming nights, set nextNight to null or a default value
+          setNextNight(null);
+        }
       })
       .catch((error) => console.error("Error fetching night data:", error));
   };
 
   const fetchUserPreviousNightData = () => {
-    fetch(`http://127.0.0.1:8000/api/usernights-by-user/${user.id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        data.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-        const mostRecentUserNight = data[0]; // Assumes data is not empty
-        const recentUserNights = data.slice(0, 10); // Array of no more than 10 most recent nights
-
-        // console.log("Most recent usernight: ", mostRecentUserNight);
-        
-
-        setUserPreviousNight(mostRecentUserNight);
-        setRecentUserNights(recentUserNights);
+    fetch(`http://127.0.0.1:8000/api/usernights-by-user/${userId}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch user previous night data");
+        }
+        return response.json();
       })
-      .catch((error) =>
-        console.error("Error fetching user previous night data:", error)
-      );
+      .then((data) => {
+        const currentDate = new Date();
+        // Filter out user nights that are in the future
+        const filteredData = data.filter(
+          (userNight) => new Date(userNight.date) <= currentDate
+        );
+
+        if (filteredData.length === 0) {
+          // Handle case when there are no previous nights or all are in the future
+        } else {
+          // Sort the filtered data by date in descending order
+          filteredData.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          // Set the most recent user night as the userPreviousNight
+          const mostRecentUserNight = filteredData[0];
+          setUserPreviousNight(mostRecentUserNight);
+
+          // Set the filtered data as recentUserNights
+          setRecentUserNights(filteredData);
+        }
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching user previous night data:", error);
+        setIsLoading(false);
+      });
   };
 
 
@@ -117,19 +134,25 @@ function UserHome() {
         <p>Loading...</p>
       ) : (
         <div className="main">
+          {/* Left Navigation Section */}
           <div className="left-nav">
             <div className="logo-container">
               <img src="../src/assets/poker-logo.png" alt="Poker Logo" />
             </div>
-            {user && <ProfileDisplay user={user} />}
+            <ProfileDisplay user={user} userId={userId} />
           </div>
+          {/* Right Container Section */}
           <div className="right-container">
             <Navbar />
+            {/* Right Main Section */}
             <div className="right-main">
+              {/* Top Third Container */}
               <div className="top-third-container">
                 <div className="top-left-container">
                   {userPreviousNight && (
-                    <PreviousNight night={userPreviousNight} />
+                    <>
+                      <PreviousNight userPreviousNight={userPreviousNight} />
+                    </>
                   )}
                 </div>
                 <div className="top-right-container">
@@ -139,12 +162,21 @@ function UserHome() {
                   </div>
                 </div>
               </div>
+              {/* Next Night Container */}
               <div className="next-night-container">
-                {nextNight && <NextNight night={nextNight} userNights={recentUserNights} userId={user.id}/>}
+                {nextNight && (
+                  <NextNight
+                    night={nextNight}
+                    userNights={recentUserNights}
+                    userId={user.id}
+                  />
+                )}
               </div>
-
+              {/* Bottom Third Container */}
               <div className="bottom-third-container">
-                {user && <BottomCharts user={user} userNights={recentUserNights} />}
+                {user && (
+                  <BottomCharts user={user} userNights={recentUserNights} />
+                )}
               </div>
             </div>
           </div>

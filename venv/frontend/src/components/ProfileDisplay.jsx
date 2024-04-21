@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/ProfileDisplay.css";
 
-function ProfileDisplay({ user }) {
+function ProfileDisplay({ user, userId }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState({ ...user });
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -13,6 +15,23 @@ function ProfileDisplay({ user }) {
     }));
   };
 
+  const handleTotalWonChange = (e) => {
+    const { value } = e.target;
+    setEditedUser((prevState) => ({
+      ...prevState,
+      total_won: value,
+    }));
+  };
+
+  const handleTotalSpentChange = (e) => {
+    const { value } = e.target;
+    setEditedUser((prevState) => ({
+      ...prevState,
+      total_spent: value,
+    }));
+  };
+
+
   const handleSubmit = () => {
     // Prepare the edited user data to be sent to the server
     const editedUserData = {
@@ -21,7 +40,7 @@ function ProfileDisplay({ user }) {
     };
 
     // Send a PUT request to the API endpoint to update the user data
-    fetch(`http://127.0.0.1:8000/api/edit-user/${editedUser.id}`, {
+    fetch(`http://127.0.0.1:8000/api/edit-user/${userId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +53,7 @@ function ProfileDisplay({ user }) {
         }
         // Optionally, you can handle success response here
         // For example, display a success message
-        console.log("User data updated successfully");
+        // console.log("User data updated successfully");
         // Reset the edited user data and exit edit mode
         setEditedUser({ ...user });
         setIsEditing(false);
@@ -53,12 +72,25 @@ function ProfileDisplay({ user }) {
     setIsEditing(false);
   };
 
+  const handleLogout = () => {
+    navigate("/")
+  }
+
   return (
     <>
       <div className="profile-display-container">
         <div className="profile-img-container">
-          <img src={user.profile_url} id="profile-img" alt="Profile" />
+          <img
+            src={user.profile_url}
+            id="profile-img"
+            alt="Profile"
+            onError={(e) => {
+              e.target.onerror = null; // Reset the event handler to avoid potential infinite loop
+              e.target.src = "../src/assets/profilepicture.jpg"; // Provide the path to your default image
+            }}
+          />
         </div>
+
         <div className="username-container">
           <p>
             <span className="">{user.username}</span>
@@ -120,6 +152,17 @@ function ProfileDisplay({ user }) {
                       onChange={handleInputChange}
                     />
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="total_won">Total Won</label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="total-won"
+                      name="total-won"
+                      value={editedUser.total_won}
+                      onChange={handleTotalWonChange}
+                    />
+                  </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
@@ -166,6 +209,17 @@ function ProfileDisplay({ user }) {
                       onChange={handleInputChange}
                     />
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="total-spent">Total Spent</label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="total-spent"
+                      name="total-spent"
+                      value={editedUser.total_spent}
+                      onChange={handleTotalSpentChange}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="form-group">
@@ -187,6 +241,13 @@ function ProfileDisplay({ user }) {
             <span className="edit-profile" onClick={handleEditClick}>
               Edit profile information
             </span>
+            <button
+              className="btn btn-outline-danger"
+              id="logout-btn"
+              onClick={handleLogout}
+            >
+              Log out
+            </button>
           </div>
         )}
       </div>

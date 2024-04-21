@@ -1,0 +1,26 @@
+.signup-form-container {
+    width: 45%;
+    height: 60%;
+    background-color: #272f4e;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#btn-container {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+#btn-container button {
+    width: 200px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

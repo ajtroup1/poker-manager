@@ -19,4 +19,8 @@ urlpatterns = [
     path('add-usernight', AddUserNight.as_view()),
     path('edit-usernight/<int:id>', EditUserNight.as_view()),
     path('delete-usernight/<int:id>', DeleteUserNight.as_view()),
+    #admin
+    path('admin', GetAdmin.as_view()),
+    path('add-admin', AddAdmin.as_view()),
+    path('edit-admin/<int:id>', EditAdmin.as_view()),
 ]

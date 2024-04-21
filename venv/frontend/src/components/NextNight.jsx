@@ -18,7 +18,7 @@ function NextNight({ night: passedNight, userNights: userNightsx, userId}) {
     for (const userNight of userNights) {
       if (userNight.date === passedNight.date) {
         setIsSignedUp(true);
-        console.log("user is in next thing");
+        // console.log("user is in next thing");
         break;
       }
     }
@@ -28,8 +28,8 @@ function NextNight({ night: passedNight, userNights: userNightsx, userId}) {
     const data = {
       user: userId,
       date: night.date,
-      night: night.id
-    }
+      night: night.id,
+    };
 
     fetch(`http://127.0.0.1:8000/api/add-usernight`, {
       method: "POST",
@@ -42,13 +42,21 @@ function NextNight({ night: passedNight, userNights: userNightsx, userId}) {
         if (!response.ok) {
           throw new Error("Failed to update user data");
         }
-        setIsSignedUp(true)
+        // Refresh the night data after successful signup
+        return fetch(`http://127.0.0.1:8000/api/night/${night.id}`);
+      })
+      .then((response) => response.json())
+      .then((updatedNight) => {
+        // Update the state with the new night data
+        setNight(updatedNight);
+        setIsSignedUp(true);
         alert("Signed up successfully!");
       })
       .catch((error) => {
         alert("Error signing up for night: ", error);
       });
-  }
+  };
+
 
   const renderPlayers = () => {
     const players = [];

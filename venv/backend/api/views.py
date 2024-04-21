@@ -31,7 +31,7 @@ class AddUser(APIView):
         
         if serializer.is_valid():
             serializer.save()
-            return Response({'Message': 'User created successfully'}, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
@@ -121,14 +121,32 @@ class AddUserNight(APIView):
         serializer = UserNightSerializer(data=request.data)
         
         if serializer.is_valid():
+            # Save the user night
             serializer.save()
+            
+            # Get the night object corresponding to the user night
+            night = serializer.validated_data['night']
+            
+            # Get the user object corresponding to the user
+            user = serializer.validated_data['user']
+
+            # Increment the player count for the night
+            night.players += 1
+            night.save()
+
+            # Update the user's total spent
+            user.total_spent += night.buy_in
+            user.save()
+            
             return Response({'Message': 'User night created successfully'}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         
 class EditUserNight(APIView):
     def put(self, request, id, format=None):
         try:
+            # Get the UserNight object
             usernight = UserNight.objects.get(pk=id)
         except UserNight.DoesNotExist:
             return Response({'Message': 'UserNight does not exist'}, status=status.HTTP_404_NOT_FOUND)
@@ -136,6 +154,13 @@ class EditUserNight(APIView):
         serializer = UserNightSerializer(usernight, data=request.data)
         if serializer.is_valid():
             serializer.save()
+
+            # Update the corresponding User's total spent
+            user = serializer.validated_data['user']
+            user.total_spent += serializer.data.total_spent
+            print(user.total_spent + serializer.data.total_spent)
+            user.save()
+
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -148,3 +173,33 @@ class DeleteUserNight(APIView):
 
         usernight.delete()
         return Response({'Message': 'UserNight deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+    
+#ADMIN
+class GetAdmin(APIView):
+    def get(self, request, format=None):
+        admins = Admin.objects.all()  # Query the Admin model
+        serializer = AdminSerializer(admins, many=True)  # Pass many=True for multiple objects
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class AddAdmin(APIView):
+    def post(self, request, format=None):
+        serializer = AdminSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'Message': 'Admin created successfully'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+class EditAdmin(APIView):
+    def put(self, request, id, format=None):
+        try:
+            admin = Admin.objects.get(pk=id)
+        except Admin.DoesNotExist:
+            return Response({'Message': 'Admin does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = AdminSerializer(admin, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -14,7 +14,7 @@ class User(models.Model):
     player_class = models.CharField(max_length=25, default="Base")
     phone_number = models.CharField(max_length=25, null=False)
     profile_url = models.CharField(max_length=999, default=None)
-    favorite_hand = models.CharField(max_length=25, default="Seven Two")
+    favorite_hand = models.CharField(max_length=999, default="Seven Two")
 
 class Night(models.Model):
     date = models.DateField(null=False)
@@ -33,3 +33,8 @@ class UserNight(models.Model):
         super().__init__(*args, **kwargs)
         if not self.total_spent:
             self.total_spent = self.night.buy_in if self.night else 0
+
+class Admin(models.Model):
+    username = models.CharField(max_length=50, null=False)
+    password = models.CharField(max_length=50, null=False)
+    

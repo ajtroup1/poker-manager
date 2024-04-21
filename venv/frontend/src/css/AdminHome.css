@@ -1,0 +1,95 @@
+.admin-home-main {
+  height: 100vh;
+  width: 100vw;
+  background-color: #1c132e;
+  color: white;
+  font-family: "Canva Sans", sans-serif;
+  font-weight: bold;
+  font-size: 24px; /* Adjust the font size as needed */
+  letter-spacing: 1px; /* Add some letter spacing */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.top-row {
+padding-top: 3%;
+  display: flex;
+  justify-content: space-between;
+  height: 40%;
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 1.5%;
+}
+
+.top-left-container,
+.top-right-container {
+  width: 49%;
+  background-color: #272f4e;
+}
+
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  height: 40%;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.bottom-left-container,
+.bottom-right-container {
+  width: 38%;
+  background-color: #272f4e;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.bottom-right-container {
+}
+
+.bottom-middle-container {
+    width: 20%;
+    background-color: #272f4e;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    text-align: center;
+}
+
+
+.nuke-btn-container {
+    width: 70%;
+    height: 20%;
+}
+
+#nuke-pic {
+    width: 100%;
+    height: auto;
+    transition: opacity 1s ease;
+}
+
+#nuke-pic:hover {
+  opacity: 0.7; /* Reduce opacity on hover */
+}
+
+.overlay {
+  position: absolute; /* Position the overlay */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 0, 0, 0.5); /* Red overlay color with 50% opacity */
+}
+
+.nuke-btn-container:hover .overlay {
+  opacity: 1; /* Show overlay on hover */
+}
+
+#add-btn {
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    width: 100%;
+}
